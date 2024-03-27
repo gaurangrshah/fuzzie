@@ -5,7 +5,7 @@ import * as LR from "@uploadcare/blocks";
 import { useRouter } from "next/navigation";
 
 type Props = {
-  onUpload: any; // @FIXME: this is supposed to be a fn but cannot be typed as it bc props must be serializable
+  onUpload: (image: string) => any;
 };
 
 LR.registerBlocks(LR);
