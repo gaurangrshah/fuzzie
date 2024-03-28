@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { Option } from "./content-based-on-title";
 import { ConnectionProviderProps } from "@/providers/connections-provider";
 import { usePathname } from "next/navigation";

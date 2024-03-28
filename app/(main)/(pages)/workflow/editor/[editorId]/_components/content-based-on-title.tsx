@@ -2,7 +2,7 @@ import { AccordionContent } from "@/components/ui/accordion";
 import { ConnectionProviderProps } from "@/providers/connections-provider";
 import { EditorState } from "@/providers/editor-provider";
 import { nodeMapper } from "@/lib/types";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -15,7 +15,6 @@ import { onContentChange } from "@/lib/editor-utils";
 import { GoogleFileDetails } from "./google-file-details";
 import { GoogleDriveFiles } from "./google-drive-files";
 import { ActionButton } from "./action-button";
-import { getFileMetaData } from "@/app/(main)/(pages)/connection/_actions/google-connection";
 import axios from "axios";
 import { toast } from "sonner";
 
