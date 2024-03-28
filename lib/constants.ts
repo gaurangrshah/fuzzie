@@ -94,7 +94,7 @@ export const products = [
 
 export const menuOptions = [
   { name: "Dashboard", Component: Home, href: "/dash" },
-  { name: "Workflows", Component: Workflows, href: "/workflows" },
+  { name: "Workflows", Component: Workflows, href: "/workflow" },
   { name: "Preferences", Component: Settings, href: "/preferences" },
   { name: "Connections", Component: Category, href: "/connection" },
   { name: "Billing", Component: Payment, href: "/billing" },

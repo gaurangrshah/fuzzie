@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import * as LR from "@uploadcare/blocks";
 import { useRouter } from "next/navigation";
 
 type Props = {
-  onUpload: (image: string) => any;
+  onUpload: (image: string) => any; // @FIXME: fix serializable warning
 };
 
 LR.registerBlocks(LR);
