@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/accordion";
 import { RenderConnectionAccordion } from "./render-connection-accordion";
 import { RenderOutputAccordion } from "./render-output-accordion";
-// import { useFuzzieStore } from '@/store'
+import { useFuzzieStore } from '@/store'
 
 type Props = {
   nodes: EditorNodeType[];
@@ -36,21 +36,23 @@ type Props = {
 export const EditorCanvasSidebar = ({ nodes }: Props) => {
   const { state } = useEditor();
   const { nodeConnection } = useNodeConnections();
-  // const { googleFile, setSlackChannels } = useFuzzieStore()
-  // useEffect(() => {
-  //   if (state) {
-  //     onConnections(nodeConnection, state, googleFile)
-  //   }
-  // }, [state])
+  const { googleFile, setSlackChannels } = useFuzzieStore()
+  useEffect(() => {
+    if (state) {
+      onConnections(nodeConnection, state, googleFile)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state])
 
-  // useEffect(() => {
-  //   if (nodeConnection.slackNode.slackAccessToken) {
-  //     fetchBotSlackChannels(
-  //       nodeConnection.slackNode.slackAccessToken,
-  //       setSlackChannels
-  //     )
-  //   }
-  // }, [nodeConnection])
+  useEffect(() => {
+    if (nodeConnection.slackNode.slackAccessToken) {
+      fetchBotSlackChannels(
+        nodeConnection.slackNode.slackAccessToken,
+        setSlackChannels
+      )
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nodeConnection])
 
   return (
     <aside>

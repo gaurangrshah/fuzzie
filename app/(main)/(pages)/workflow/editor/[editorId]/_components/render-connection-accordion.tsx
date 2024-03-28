@@ -6,23 +6,7 @@ import MultipleSelector from "@/components/ui/multiple-selector";
 import { Connection } from "@/lib/types";
 import { useNodeConnections } from "@/providers/connections-provider";
 import { EditorState } from "@/providers/editor-provider";
-// import { useFuzzieStore } from '@/store'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { CheckIcon, ChevronsUpDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useFuzzieStore } from '@/store'
 
 const frameworks = [
   {
@@ -65,11 +49,8 @@ export const RenderConnectionAccordion = ({
   } = connection;
 
   const { nodeConnection } = useNodeConnections();
-  // const { slackChannels, selectedSlackChannels, setSelectedSlackChannels } =
-  //   useFuzzieStore()
-
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const { slackChannels, selectedSlackChannels, setSelectedSlackChannels } =
+    useFuzzieStore()
 
   const connectionData = (nodeConnection as any)[connectionKey];
 
@@ -92,7 +73,7 @@ export const RenderConnectionAccordion = ({
           />
           {slackSpecial && isConnected && (
             <div className="p-6">
-              {/* {slackChannels?.length ? (
+              {slackChannels?.length ? (
                 <>
                   <div className="mb-4 ml-1">
                     Select the slack channels to send notification and messages:
@@ -111,7 +92,7 @@ export const RenderConnectionAccordion = ({
                 </>
               ) : (
                 'No Slack channels found. Please add your Slack bot to your Slack channel'
-              )} */}
+              )}
             </div>
           )}
         </>
