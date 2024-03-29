@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ModalProvider } from "@/providers/modal-provider";
 
 export const metadata: Metadata = {
   title: "Fuzzie",
@@ -22,7 +23,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <ModalProvider>{children}</ModalProvider>
         </ThemeProvider>
         <footer className="min-h-12 bg-black/30 w-full border border-gray-900 mt-6">
           <div className="max-w-5xl mx-auto p-6">

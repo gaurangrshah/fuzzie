@@ -14,8 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useBackPath } from "@/components/shared/BackButton";
 
-
-import { Checkbox } from "@/components/ui/checkbox"
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -43,7 +42,7 @@ const WorkflowForm = ({
 }: {
   workflow?: Workflow | null;
   users: User[];
-  userId?: UserId
+  userId?: UserId;
   openModal?: (workflow?: Workflow) => void;
   closeModal?: () => void;
   addOptimistic?: TAddOptimistic;
@@ -52,17 +51,16 @@ const WorkflowForm = ({
   const { errors, hasErrors, setErrors, handleChange } =
     useValidatedForm<Workflow>(insertWorkflowParams);
   const editing = !!workflow?.id;
-  
+
   const [isDeleting, setIsDeleting] = useState(false);
   const [pending, startMutation] = useTransition();
 
   const router = useRouter();
   const backpath = useBackPath("workflows");
 
-
   const onSuccess = (
     action: Action,
-    data?: { error: string; values: Workflow },
+    data?: { error: string; values: Workflow }
   ) => {
     const failed = Boolean(data?.error);
     if (failed) {
@@ -82,7 +80,10 @@ const WorkflowForm = ({
     setErrors(null);
 
     const payload = Object.fromEntries(data.entries());
-    const workflowParsed = await insertWorkflowParams.safeParseAsync({ userId, ...payload });
+    const workflowParsed = await insertWorkflowParams.safeParseAsync({
+      userId,
+      ...payload,
+    });
     if (!workflowParsed.success) {
       setErrors(workflowParsed?.error.flatten().fieldErrors);
       return;
@@ -91,16 +92,16 @@ const WorkflowForm = ({
     closeModal && closeModal();
     const values = workflowParsed.data;
     const pendingWorkflow: Workflow = {
-      
       id: workflow?.id ?? "",
       ...values,
     };
     try {
       startMutation(async () => {
-        addOptimistic && addOptimistic({
-          data: pendingWorkflow,
-          action: editing ? "update" : "create",
-        });
+        addOptimistic &&
+          addOptimistic({
+            data: pendingWorkflow,
+            action: editing ? "update" : "create",
+          });
 
         const error = editing
           ? await updateWorkflowAction({ ...values, id: workflow.id })
@@ -108,11 +109,11 @@ const WorkflowForm = ({
 
         const errorFormatted = {
           error: error ?? "Error",
-          values: pendingWorkflow 
+          values: pendingWorkflow,
         };
         onSuccess(
           editing ? "update" : "create",
-          error ? errorFormatted : undefined,
+          error ? errorFormatted : undefined
         );
       });
     } catch (e) {
@@ -125,11 +126,11 @@ const WorkflowForm = ({
   return (
     <form action={handleSubmit} onChange={handleChange} className={"space-y-8"}>
       {/* Schema fields start */}
-              <div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.nodes ? "text-destructive" : "",
+            errors?.nodes ? "text-destructive" : ""
           )}
         >
           Nodes
@@ -146,11 +147,11 @@ const WorkflowForm = ({
           <div className="h-6" />
         )}
       </div>
-        <div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.edges ? "text-destructive" : "",
+            errors?.edges ? "text-destructive" : ""
           )}
         >
           Edges
@@ -167,11 +168,11 @@ const WorkflowForm = ({
           <div className="h-6" />
         )}
       </div>
-        <div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.name ? "text-destructive" : "",
+            errors?.name ? "text-destructive" : ""
           )}
         >
           Name
@@ -188,11 +189,11 @@ const WorkflowForm = ({
           <div className="h-6" />
         )}
       </div>
-        <div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.discordTemplate ? "text-destructive" : "",
+            errors?.discordTemplate ? "text-destructive" : ""
           )}
         >
           Discord Template
@@ -204,16 +205,18 @@ const WorkflowForm = ({
           defaultValue={workflow?.discordTemplate ?? ""}
         />
         {errors?.discordTemplate ? (
-          <p className="text-xs text-destructive mt-2">{errors.discordTemplate[0]}</p>
+          <p className="text-xs text-destructive mt-2">
+            {errors.discordTemplate[0]}
+          </p>
         ) : (
           <div className="h-6" />
         )}
       </div>
-        <div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.notionTemplate ? "text-destructive" : "",
+            errors?.notionTemplate ? "text-destructive" : ""
           )}
         >
           Notion Template
@@ -225,16 +228,18 @@ const WorkflowForm = ({
           defaultValue={workflow?.notionTemplate ?? ""}
         />
         {errors?.notionTemplate ? (
-          <p className="text-xs text-destructive mt-2">{errors.notionTemplate[0]}</p>
+          <p className="text-xs text-destructive mt-2">
+            {errors.notionTemplate[0]}
+          </p>
         ) : (
           <div className="h-6" />
         )}
       </div>
-        <div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.slackTemplate ? "text-destructive" : "",
+            errors?.slackTemplate ? "text-destructive" : ""
           )}
         >
           Slack Template
@@ -246,16 +251,18 @@ const WorkflowForm = ({
           defaultValue={workflow?.slackTemplate ?? ""}
         />
         {errors?.slackTemplate ? (
-          <p className="text-xs text-destructive mt-2">{errors.slackTemplate[0]}</p>
+          <p className="text-xs text-destructive mt-2">
+            {errors.slackTemplate[0]}
+          </p>
         ) : (
           <div className="h-6" />
         )}
       </div>
-        <div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.slackChannels ? "text-destructive" : "",
+            errors?.slackChannels ? "text-destructive" : ""
           )}
         >
           Slack Channels
@@ -267,16 +274,18 @@ const WorkflowForm = ({
           defaultValue={workflow?.slackChannels ?? ""}
         />
         {errors?.slackChannels ? (
-          <p className="text-xs text-destructive mt-2">{errors.slackChannels[0]}</p>
+          <p className="text-xs text-destructive mt-2">
+            {errors.slackChannels[0]}
+          </p>
         ) : (
           <div className="h-6" />
         )}
       </div>
-        <div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.slackAccessToken ? "text-destructive" : "",
+            errors?.slackAccessToken ? "text-destructive" : ""
           )}
         >
           Slack Access Token
@@ -284,20 +293,24 @@ const WorkflowForm = ({
         <Input
           type="text"
           name="slackAccessToken"
-          className={cn(errors?.slackAccessToken ? "ring ring-destructive" : "")}
+          className={cn(
+            errors?.slackAccessToken ? "ring ring-destructive" : ""
+          )}
           defaultValue={workflow?.slackAccessToken ?? ""}
         />
         {errors?.slackAccessToken ? (
-          <p className="text-xs text-destructive mt-2">{errors.slackAccessToken[0]}</p>
+          <p className="text-xs text-destructive mt-2">
+            {errors.slackAccessToken[0]}
+          </p>
         ) : (
           <div className="h-6" />
         )}
       </div>
-        <div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.notionAccessToken ? "text-destructive" : "",
+            errors?.notionAccessToken ? "text-destructive" : ""
           )}
         >
           Notion Access Token
@@ -305,20 +318,24 @@ const WorkflowForm = ({
         <Input
           type="text"
           name="notionAccessToken"
-          className={cn(errors?.notionAccessToken ? "ring ring-destructive" : "")}
+          className={cn(
+            errors?.notionAccessToken ? "ring ring-destructive" : ""
+          )}
           defaultValue={workflow?.notionAccessToken ?? ""}
         />
         {errors?.notionAccessToken ? (
-          <p className="text-xs text-destructive mt-2">{errors.notionAccessToken[0]}</p>
+          <p className="text-xs text-destructive mt-2">
+            {errors.notionAccessToken[0]}
+          </p>
         ) : (
           <div className="h-6" />
         )}
       </div>
-        <div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.notionDbId ? "text-destructive" : "",
+            errors?.notionDbId ? "text-destructive" : ""
           )}
         >
           Notion Db Id
@@ -330,16 +347,18 @@ const WorkflowForm = ({
           defaultValue={workflow?.notionDbId ?? ""}
         />
         {errors?.notionDbId ? (
-          <p className="text-xs text-destructive mt-2">{errors.notionDbId[0]}</p>
+          <p className="text-xs text-destructive mt-2">
+            {errors.notionDbId[0]}
+          </p>
         ) : (
           <div className="h-6" />
         )}
       </div>
-        <div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.flowPath ? "text-destructive" : "",
+            errors?.flowPath ? "text-destructive" : ""
           )}
         >
           Flow Path
@@ -356,11 +375,11 @@ const WorkflowForm = ({
           <div className="h-6" />
         )}
       </div>
-        <div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.cronPath ? "text-destructive" : "",
+            errors?.cronPath ? "text-destructive" : ""
           )}
         >
           Cron Path
@@ -377,28 +396,32 @@ const WorkflowForm = ({
           <div className="h-6" />
         )}
       </div>
-<div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.publish ? "text-destructive" : "",
+            errors?.publish ? "text-destructive" : ""
           )}
         >
           Publish
         </Label>
         <br />
-        <Checkbox defaultChecked={workflow?.publish} name={'publish'} className={cn(errors?.publish ? "ring ring-destructive" : "")} />
+        <Checkbox
+          defaultChecked={workflow?.publish!}
+          name={"publish"}
+          className={cn(errors?.publish ? "ring ring-destructive" : "")}
+        />
         {errors?.publish ? (
           <p className="text-xs text-destructive mt-2">{errors.publish[0]}</p>
         ) : (
           <div className="h-6" />
         )}
       </div>
-        <div>
+      <div>
         <Label
           className={cn(
             "mb-2 inline-block",
-            errors?.description ? "text-destructive" : "",
+            errors?.description ? "text-destructive" : ""
           )}
         >
           Description
@@ -410,41 +433,46 @@ const WorkflowForm = ({
           defaultValue={workflow?.description ?? ""}
         />
         {errors?.description ? (
-          <p className="text-xs text-destructive mt-2">{errors.description[0]}</p>
+          <p className="text-xs text-destructive mt-2">
+            {errors.description[0]}
+          </p>
         ) : (
           <div className="h-6" />
         )}
       </div>
 
-      {userId ? null : <div>
-        <Label
-          className={cn(
-            "mb-2 inline-block",
-            errors?.userId ? "text-destructive" : "",
-          )}
-        >
-          User
-        </Label>
-        <Select defaultValue={workflow?.userId} name="userId">
-          <SelectTrigger
-            className={cn(errors?.userId ? "ring ring-destructive" : "")}
+      {userId ? null : (
+        <div>
+          <Label
+            className={cn(
+              "mb-2 inline-block",
+              errors?.userId ? "text-destructive" : ""
+            )}
           >
-            <SelectValue placeholder="Select a user" />
-          </SelectTrigger>
-          <SelectContent>
-          {users?.map((user) => (
-            <SelectItem key={user.id} value={user.id.toString()}>
-              {user.id}{/* TODO: Replace with a field from the user model */}
-            </SelectItem>
-           ))}
-          </SelectContent>
-        </Select>
-        {errors?.userId ? (
-          <p className="text-xs text-destructive mt-2">{errors.userId[0]}</p>
-        ) : (
-          <div className="h-6" />
-        )}
-      </div> }
+            User
+          </Label>
+          <Select defaultValue={workflow?.userId} name="userId">
+            <SelectTrigger
+              className={cn(errors?.userId ? "ring ring-destructive" : "")}
+            >
+              <SelectValue placeholder="Select a user" />
+            </SelectTrigger>
+            <SelectContent>
+              {users?.map((user) => (
+                <SelectItem key={user.id} value={user.id.toString()}>
+                  {user.id}
+                  {/* TODO: Replace with a field from the user model */}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {errors?.userId ? (
+            <p className="text-xs text-destructive mt-2">{errors.userId[0]}</p>
+          ) : (
+            <div className="h-6" />
+          )}
+        </div>
+      )}
       {/* Schema fields end */}
 
       {/* Save Button */}
@@ -460,7 +488,8 @@ const WorkflowForm = ({
             setIsDeleting(true);
             closeModal && closeModal();
             startMutation(async () => {
-              addOptimistic && addOptimistic({ action: "delete", data: workflow });
+              addOptimistic &&
+                addOptimistic({ action: "delete", data: workflow });
               const error = await deleteWorkflowAction(workflow.id);
               setIsDeleting(false);
               const errorFormatted = {
