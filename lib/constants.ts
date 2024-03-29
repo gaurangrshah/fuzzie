@@ -98,8 +98,8 @@ export const menuOptions = [
   { name: "Preferences", Component: Settings, href: "/preferences" },
   { name: "Connections", Component: Category, href: "/connection" },
   { name: "Billing", Component: Payment, href: "/billing" },
-  { name: "Templates", Component: Templates, href: "/templates" },
-  { name: "Logs", Component: Logs, href: "/logs" },
+  // { name: "Templates", Component: Templates, href: "/templates" },
+  // { name: "Logs", Component: Logs, href: "/logs" },
 ];
 
 export const EditorCanvasDefaultCardTypes = {
