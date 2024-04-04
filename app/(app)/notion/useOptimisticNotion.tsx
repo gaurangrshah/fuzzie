@@ -18,7 +18,9 @@ export const useOptimisticNotions = (
       const { data } = action;
 
       const optimisticConnection = connections.find(
-        (connection) => connection.id === data.connectionId,
+        // @TODO: CHECK:which one of these is correct
+        // (connection) => connection.id === data.workspaceId,
+        (connection) => connection.id === data.databaseId,
       )!;
 
       const optimisticNotion = {
