@@ -1,6 +1,6 @@
 "use server";
 
-import { Option } from "@/components/ui/multiple-selector";
+import { Option } from "@/lib/types";
 import { db } from "@/lib/db";
 import { auth, currentUser } from "@clerk/nextjs";
 

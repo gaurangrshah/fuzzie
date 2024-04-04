@@ -1,6 +1,6 @@
 "use server";
 
-import { Option } from "@/components/ui/multiple-selector";
+import { Option } from "@/lib/types";
 import { db } from "@/lib/db";
 import { currentUser } from "@clerk/nextjs";
 import axios from "axios";
@@ -63,9 +63,6 @@ export async function listBotChannels(
     const { data } = await axios.get(url, {
       headers: { Authorization: `Bearer ${slackAccessToken}` },
     });
-
-    console.log(data);
-
     if (!data.ok) throw new Error(data.error);
 
     if (!data?.channels?.length) return [];

@@ -2,11 +2,18 @@
 
 import { ConnectionCard } from "@/app/(main)/(pages)/connection/_components/connection-card";
 import { AccordionContent } from "@/components/ui/accordion";
-import MultipleSelector from "@/components/ui/multiple-selector";
+import {
+  MultiSelector,
+  MultiSelectorContent,
+  MultiSelectorInput,
+  MultiSelectorItem,
+  MultiSelectorList,
+  MultiSelectorTrigger,
+} from "@/components/ui/multi-select";
 import { Connection } from "@/lib/types";
 import { useNodeConnections } from "@/providers/connections-provider";
 import { EditorState } from "@/providers/editor-provider";
-import { useFuzzieStore } from '@/store'
+import { useFuzzieStore } from "@/store";
 
 const frameworks = [
   {
@@ -50,7 +57,7 @@ export const RenderConnectionAccordion = ({
 
   const { nodeConnection } = useNodeConnections();
   const { slackChannels, selectedSlackChannels, setSelectedSlackChannels } =
-    useFuzzieStore()
+    useFuzzieStore();
 
   const connectionData = (nodeConnection as any)[connectionKey];
 
@@ -78,20 +85,40 @@ export const RenderConnectionAccordion = ({
                   <div className="mb-4 ml-1">
                     Select the slack channels to send notification and messages:
                   </div>
-                  <MultipleSelector
-                    value={selectedSlackChannels}
-                    onChange={setSelectedSlackChannels}
-                    defaultOptions={slackChannels}
-                    placeholder="Select channels"
-                    emptyIndicator={
-                      <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-                        no results found.
-                      </p>
-                    }
-                  />
+                  <MultiSelector
+                    value={selectedSlackChannels.map(
+                      (channel) => channel.value
+                    )}
+                    onValueChange={(selected) => {
+                      setSelectedSlackChannels(
+                        slackChannels.filter((channel) =>
+                          selected.includes(channel.value)
+                        )
+                      );
+                    }}
+                  >
+                    <MultiSelectorTrigger>
+                      <MultiSelectorInput
+                        placeholder="Select Slack Channel(s)"
+                        className="max-w-xs"
+                      />
+                    </MultiSelectorTrigger>
+                    <MultiSelectorContent>
+                      <MultiSelectorList>
+                        {slackChannels.map((channel) => (
+                          <MultiSelectorItem
+                            key={channel.value}
+                            value={channel.value}
+                          >
+                            {channel.label}
+                          </MultiSelectorItem>
+                        ))}
+                      </MultiSelectorList>
+                    </MultiSelectorContent>
+                  </MultiSelector>
                 </>
               ) : (
-                'No Slack channels found. Please add your Slack bot to your Slack channel'
+                "No Slack channels found. Please add your Slack bot to your Slack channel"
               )}
             </div>
           )}
