@@ -101,7 +101,6 @@ const Connections = async (props: Props) => {
   };
 
   const connections = await onUserConnections();
-
   return (
     <div className="relative flex flex-col gap-4">
       <div className="relative flex flex-col gap-4">

@@ -19,11 +19,11 @@ import axios from "axios";
 import { toast } from "sonner";
 
 export interface Option {
-  value: string
-  label: string
-  disable?: boolean
+  value: string;
+  label: string;
+  disable?: boolean;
   // /** fixed option that can't be removed. */
-  fixed?: boolean
+  fixed?: boolean;
   /** Group the options by providing key. */
   [key: string]: string | boolean | undefined;
 }
@@ -53,19 +53,23 @@ export const ContentBasedOnTitle = ({
 
   useEffect(() => {
     const reqGoogle = async () => {
-      const response: { data: { message: { files: any } } } = await axios.get(
-        '/api/drive'
-      )
-      if (response) {
-        console.log(response.data.message.files[0])
-        toast.message("Fetched File")
-        setFile(response.data.message.files[0])
-      } else {
-        toast.error('Something went wrong')
+      try {
+        const response: { data: { message: { files: any } } } =
+          await axios.get("/api/drive");
+        if (response) {
+          console.log("🚀 | response:", response);
+          // console.log(response.data.message.files[0])
+          toast.message("Fetched File");
+          setFile(response.data.message.files[0]);
+        } else {
+          toast.error("Something went wrong");
+        }
+      } catch (error) {
+        console.log(error);
       }
     };
     reqGoogle();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // @ts-ignore
@@ -123,7 +127,7 @@ export const ContentBasedOnTitle = ({
               </CardContent>
             </Card>
           )}
-          {title === 'Google Drive' && <GoogleDriveFiles />}
+          {title === "Google Drive" && <GoogleDriveFiles />}
           <ActionButton
             currentService={title}
             nodeConnection={nodeConnection}
